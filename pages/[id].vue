@@ -2,7 +2,7 @@
     <main class="landing-page">
         <h1>You are redirecting to:</h1>
         <p> <a :href="data.fields.url.stringValue">{{ data.fields.url.stringValue }}</a> Powered by RCDLink. RCDLink is a tool to unblock your website URL on major social media platform. <nuxt-link to="/">Go try it</nuxt-link>!</p>
-        <nuxt-link :href="data.fields.url.stringValue" class="btn">GO TO {{ data.fields.url.stringValue }}</nuxt-link>
+        <nuxt-link :href="data.fields.url.stringValue" class="btn">GO TO {{ baseURL }}</nuxt-link>
     </main>
 </template>
 
@@ -165,6 +165,15 @@ const data = await $fetch(
   $router.push("/404");
   // error({ statusCode: 404, message: "Post not found" });
 });
+
+const baseURL = computed(() => {
+  const pathArray = data.fields.url.stringValue.split( '/' );
+  const protocol = pathArray[0];
+  const host = pathArray[2];
+  const url = protocol + '//' + host;
+
+  return url;
+})
 
 useHead({
   title: data.fields.meta.mapValue.fields.title.stringValue,
